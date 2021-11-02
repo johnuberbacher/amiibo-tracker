@@ -31,4 +31,8 @@ export default {
 .card:hover {
   background: var(--light);
 }
+.card.collected {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
 </style>
