@@ -1,23 +1,21 @@
 <template>
   <b-container>
-    <div
+    <b-dropdown
+      dropright 
+      no-caret
+      id="dropdown-1"
       role="button"
-      class="
-        position-fixed
-        bg-white
-        rounded-circle
-        shadow
-        d-flex
+      variant="link"
+      toggle-class="text-decoration-none p-0 bg-primary h-100 border rounded-circle shadow text-white d-flex
         align-items-center
-        justify-content-center
-      "
-      style="top: 1rem; right: 1rem; width: 50px; height: 50px; z-index: 3"
+        justify-content-center"
+      class="position-fixed"
+      style="top: 1rem; right: 1rem; width: 55px; height: 55px; z-index: 3"
     >
-      <b-icon
-        icon="menu-button-wide"
-        style="width: 25px; height: 25px"
-      ></b-icon>
-    </div>
+      <template #button-content>
+        <b-icon icon="menu-up" style="width: 25px; height: 25px"></b-icon>
+      </template>
+    </b-dropdown>
     <div
       v-if="loading"
       class="vh-100 d-flex align-items-center justify-content-center"
@@ -36,7 +34,7 @@
       >
         <div
           role="button"
-          v-bind:class="{ collected: amiiboIsCollected(amiibo) }"
+          v-bind:class="{ collected: amiiboIsCollected(amiibo)}"
           @click="viewDetails(amiibo)"
           class="
             card
@@ -73,6 +71,7 @@
     <Details
       v-on:markCollected="markCollected(collectedAmiibo)"
       :amiiboData="this.amiiboDetails"
+      :isCollected="this.collected.includes(this.amiiboDetails[0].tail, 1)"
     ></Details>
   </b-container>
 </template>
@@ -92,9 +91,9 @@ export default {
     return {
       loading: true,
       amiiboList: [],
-      amiiboDetails: {},
+      amiiboDetails: {}, 
       collected: [],
-      collectedAmiibo: '',
+      collectedAmiibo: "",
     };
   },
   methods: {
@@ -111,7 +110,7 @@ export default {
     },
     async viewDetails(amiibo) {
       axios
-        .get("https://amiiboapi.com/api/amiibo/?tail=" + amiibo.tail + "")
+        .get("https://amiiboapi.com/api/amiibo/?tail=" + amiibo.tail + "&showusage")
         .then((response) => {
           this.amiiboDetails = response.data.amiibo;
           this.$bvModal.show("modal-1");
@@ -121,8 +120,14 @@ export default {
       return this.collected.includes(amiibo.tail);
     },
     markCollected() {
-      this.collected.push(this.amiiboDetails[0].tail);
+      if (this.collected.includes(this.amiiboDetails[0].tail)) {
+        this.collected = this.collected.filter(v => v !== this.amiiboDetails[0].tail); 
+      } else {
+        this.collected.push(this.amiiboDetails[0].tail)
+      }
       this.$bvModal.hide("modal-1");
+      console.log('collected list');
+      console.log(this.collected)
     },
     catch(error) {
       console.log(error);

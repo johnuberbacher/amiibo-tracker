@@ -2,7 +2,7 @@
   <b-modal
     header-class="border-0"
     id="modal-1"
-    size="lg"
+    size="xl"
     centered
     content-class="rounded shadow border-0"
     body-class="pb-3 pb-xl-5 pb-md-4 px-md-4 px-xl-5 pt-0"
@@ -91,14 +91,36 @@
                   small
                 "
               >
-                <span class="text-uppercase">{{ releaseID }}</span> -
+                <span class="text-uppercase text-primary">{{ releaseID }}</span>:
                 {{ release }}
               </span>
             </div>
           </h6>
         </div>
         <div class="p-4 bg-light rounded border mb-4">
-          <h6 class="font-weight-bold mb-3">Available in:</h6>
+          <h6 class="font-weight-bold text-muted mb-3">
+            Compatible Nintendo Switch Games:
+          </h6>
+          <div
+            v-for="(game, gameID) in amiiboData[0].gamesSwitch"
+            v-bind:key="gameID"
+            v-b-tooltip.hover
+            :title="game.amiiboUsage[0].Usage"
+            class="
+              mb-1
+              mr-1
+              bg-white
+              border
+              rounded
+              d-inline-block
+              py-1
+              px-2
+              font-weight-bold
+              small
+            "
+          >
+            <span class="">{{ game.gameName }}</span>
+          </div>
         </div>
       </b-col>
     </b-row>
@@ -106,7 +128,7 @@
       class="btn btn-primary btn-block font-weight-bold"
       @click="handleCollected(amiiboData[0].tail)"
     >
-      Mark as Collected
+      {{ handleCollectedBtn() }}
     </button>
   </b-modal>
 </template>
@@ -115,12 +137,25 @@
 export default {
   name: "Details",
   methods: {
-      handleCollected: function() {
-          this.$emit("markCollected", this.amiiboData[0]);
-      },
+    handleCollected: function () {
+      this.$emit("markCollected", this.amiiboData[0]);
+      console.log("isCollected: " + this.isCollected);
+    },
+    handleCollectedBtn: function () {
+      if (this.isCollected == true) {
+        return ('Mark as Uncollected')
+      } else {
+        return ('Mark as Collected')
+      }
+    },
   },
   props: {
     amiiboData: [],
+    isCollected: {
+      type: Boolean,
+    },
+    amiiboIsCollected: [],
   },
+  mounted: {},
 };
 </script>
