@@ -103,7 +103,7 @@
           </div>
         </b-col>
       </b-row>
-      <button class="btn btn-primary btn-block font-weight-bold" @click="markCollected(amiiboDetails.name)">Mark as Collected</button>
+      <button class="btn btn-primary btn-block font-weight-bold" @click="markCollected(amiiboDetails)">Mark as Collected</button>
     </b-modal>
     <div role="button" class="position-fixed bg-white rounded-circle shadow d-flex align-items-center justify-content-center" style="top:1rem;right:1rem; width: 50px; height: 50px; z-index:3">
       <b-icon icon="menu-button-wide" style="width:25px;height:25px;"></b-icon>
@@ -122,7 +122,7 @@
         md="4"
         class="mt-5 mb-5"
         v-for="amiibo in amiiboList"
-        v-bind:key="amiibo.name"
+        v-bind:key="amiibo.tail"
       >
         <div
           role="button"
@@ -182,7 +182,7 @@ export default {
     async viewDetails(amiibo) {
       axios
         .get(
-          "https://amiiboapi.com/api/amiibo/?name=" + amiibo.name + "&showusage"
+          "https://amiiboapi.com/api/amiibo/?tail=" + amiibo.tail + "&showusage"
         )
         .then((response) => {
           this.amiiboDetails = response.data.amiibo[0];
@@ -196,10 +196,10 @@ export default {
       });
     },
     amiiboIsCollected(amiibo) {
-      return this.collected.includes(amiibo.name)
+      return this.collected.includes(amiibo.tail)
     },
     markCollected(amiibo) {
-      this.collected.push(amiibo)
+      this.collected.push(amiibo.tail)
       this.$bvModal.hide("modal-1");
     },
     catch(error) {
