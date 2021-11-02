@@ -35,6 +35,7 @@
         <div
           role="button"
           v-bind:class="{ collected: amiiboIsCollected(amiibo)}"
+          v-bind:title="amiiboIsCollected(amiibo)"
           @click="viewDetails(amiibo)"
           class="
             card
@@ -71,7 +72,7 @@
     <Details
       v-on:markCollected="markCollected(collectedAmiibo)"
       :amiiboData="this.amiiboDetails"
-      :isCollected="this.collected.includes(this.amiiboDetails[0].tail, 1)"
+      :isCollected="this.collected.includes(this.amiiboDetails[0].tail)"
     ></Details>
   </b-container>
 </template>
@@ -126,8 +127,6 @@ export default {
         this.collected.push(this.amiiboDetails[0].tail)
       }
       this.$bvModal.hide("modal-1");
-      console.log('collected list');
-      console.log(this.collected)
     },
     catch(error) {
       console.log(error);

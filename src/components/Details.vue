@@ -4,6 +4,7 @@
     id="modal-1"
     size="xl"
     centered
+    modal-class="pl-0"
     content-class="rounded shadow border-0"
     body-class="pb-3 pb-xl-5 pb-md-4 px-md-4 px-xl-5 pt-0"
     hide-footer
@@ -91,7 +92,8 @@
                   small
                 "
               >
-                <span class="text-uppercase text-primary">{{ releaseID }}</span>:
+                <span class="text-uppercase text-primary">{{ releaseID }}</span
+                >:
                 {{ release }}
               </span>
             </div>
@@ -139,13 +141,12 @@ export default {
   methods: {
     handleCollected: function () {
       this.$emit("markCollected", this.amiiboData[0]);
-      console.log("isCollected: " + this.isCollected);
     },
     handleCollectedBtn: function () {
       if (this.isCollected == true) {
-        return ('Mark as Uncollected')
+        return "Mark as Uncollected";
       } else {
-        return ('Mark as Collected')
+        return "Mark as Collected";
       }
     },
   },
@@ -154,8 +155,6 @@ export default {
     isCollected: {
       type: Boolean,
     },
-    amiiboIsCollected: [],
   },
-  mounted: {},
 };
 </script>
