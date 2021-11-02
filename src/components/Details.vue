@@ -99,7 +99,7 @@
             </div>
           </h6>
         </div>
-        <div class="p-4 bg-light rounded border mb-4">
+        <div class="p-4 bg-light rounded border">
           <h6 class="font-weight-bold text-muted mb-3">
             Compatible Nintendo Switch Games:
           </h6>
@@ -127,7 +127,7 @@
       </b-col>
     </b-row>
     <button
-      class="btn btn-primary btn-block font-weight-bold"
+      class="btn btn-primary btn-block font-weight-bold mt-4"
       @click="handleCollected(amiiboData[0].tail)"
     >
       {{ handleCollectedBtn() }}
