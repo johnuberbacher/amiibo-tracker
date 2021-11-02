@@ -1,4 +1,17 @@
-# amiibo-tracker
+# Vue Amiibo Tracker
+![Vue.js](https://img.shields.io/badge/vuejs-%2335495e.svg?style=for-the-badge&logo=vuedotjs&logoColor=%234FC08D)
+![Bootstrap](https://img.shields.io/badge/BootstrapVue-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
+
+
+Catalog the Amiibo you've collected! 
+
+Vue practice project built with Vue and BootstrapVue. 
+
+Loads all Amiibo data from [AmiiboApi](https://amiiboapi.com/).
+
+## Demo
+[https://amiibo-tracker.netlify.app/](https://amiibo-tracker.netlify.app/)
+
 
 ## Project setup
 ```
