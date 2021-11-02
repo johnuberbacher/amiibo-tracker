@@ -1,21 +1,27 @@
 <template>
   <div id="app">
-    <AmiiboTracker msg="Welcome to Your Vue.js App"/>
+    <AmiiboTracker msg="Welcome to Your Vue.js App" />
   </div>
 </template>
 
 <script>
-import AmiiboTracker from './components/AmiiboTracker.vue'
+import AmiiboTracker from "./components/AmiiboTracker.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    AmiiboTracker
-  }
-}
+    AmiiboTracker,
+  },
+};
 </script>
 
 <style>
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -26,10 +32,11 @@ export default {
   text-decoration: none;
 }
 .card {
-  transition: 0.2s background;
+  transition: 0.2s background, 0.2s box-shadow;
 }
 .card:hover {
   background: var(--light);
+  box-shadow: 0 0.15rem 0.25rem rgba(0, 0, 0, 0.05) !important;
 }
 .card.collected {
   -webkit-filter: grayscale(100%);

@@ -1,0 +1,126 @@
+<template>
+  <b-modal
+    header-class="border-0"
+    id="modal-1"
+    size="lg"
+    centered
+    content-class="rounded shadow border-0"
+    body-class="pb-3 pb-xl-5 pb-md-4 px-md-4 px-xl-5 pt-0"
+    hide-footer
+  >
+    <b-row class="align-items-center">
+      <b-col lg="5">
+        <div
+          class="w-100 mb-4 mb-lg-0"
+          style="
+            padding-bottom: 100%;
+            background-position: center top;
+            background-size: contain;
+            background-repeat: no-repeat;
+          "
+          v-bind:style="{
+            backgroundImage: 'url(' + amiiboData[0].image + ')',
+          }"
+        ></div>
+      </b-col>
+      <b-col lg="7">
+        <h1 class="mb-4 font-weight-bold text-center text-lg-left">
+          {{ amiiboData[0].name }}
+        </h1>
+        <div class="px-4 py-2 bg-light rounded border mb-4">
+          <h6
+            class="
+              font-weight-bold
+              d-flex
+              flex-row
+              justify-content-between
+              my-3
+            "
+          >
+            <span class="text-muted">Character:</span>
+            <span>{{ amiiboData[0].character }}</span>
+          </h6>
+          <h6
+            class="
+              font-weight-bold
+              d-flex
+              flex-row
+              justify-content-between
+              my-3
+            "
+          >
+            <span class="text-muted">Amiibo Series:</span>
+            <span>{{ amiiboData[0].amiiboSeries }}</span>
+          </h6>
+          <h6
+            class="
+              font-weight-bold
+              d-flex
+              flex-row
+              justify-content-between
+              my-3
+            "
+          >
+            <span class="text-muted">Game Series:</span>
+            <span>{{ amiiboData[0].gameSeries }}</span>
+          </h6>
+          <h6
+            class="
+              font-weight-bold
+              d-flex
+              flex-row
+              justify-content-between
+              my-3
+            "
+          >
+            <span class="text-muted">Release:</span>
+            <div class="text-right">
+              <span
+                v-for="(release, releaseID) in amiiboData[0].release"
+                v-bind:key="releaseID"
+                class="
+                  mb-1
+                  ml-1
+                  bg-white
+                  border
+                  rounded
+                  d-inline-block
+                  py-1
+                  px-2
+                  font-weight-bold
+                  small
+                "
+              >
+                <span class="text-uppercase">{{ releaseID }}</span> -
+                {{ release }}
+              </span>
+            </div>
+          </h6>
+        </div>
+        <div class="p-4 bg-light rounded border mb-4">
+          <h6 class="font-weight-bold mb-3">Available in:</h6>
+        </div>
+      </b-col>
+    </b-row>
+    <button
+      class="btn btn-primary btn-block font-weight-bold"
+      @click="handleCollected(amiiboData[0].tail)"
+    >
+      Mark as Collected
+    </button>
+  </b-modal>
+</template>
+
+<script>
+export default {
+  name: "Details",
+  methods: {
+      handleCollected: function() {
+          this.$emit("markCollected", this.amiiboData[0]);
+      },
+  },
+  props: {
+    amiiboData: [],
+  },
+};
+</script>

@@ -1,112 +1,22 @@
 <template>
   <b-container>
-    <b-modal
-      header-class="border-0"
-      id="modal-1"
-      size="lg"
-      centered
-      content-class="rounded shadow border-0"
-      body-class="pb-3 pb-xl-5 pb-md-4 px-md-4 px-xl-5 pt-0"
-      hide-footer
+    <div
+      role="button"
+      class="
+        position-fixed
+        bg-white
+        rounded-circle
+        shadow
+        d-flex
+        align-items-center
+        justify-content-center
+      "
+      style="top: 1rem; right: 1rem; width: 50px; height: 50px; z-index: 3"
     >
-      <b-row class="align-items-center">
-        <b-col lg="5">
-          <div
-            class="w-100 mb-4 mb-lg-0"
-            style="
-              padding-bottom: 100%;
-              background-position: center top;
-              background-size: contain;
-              background-repeat: no-repeat;
-            "
-            v-bind:style="{
-              backgroundImage: 'url(' + amiiboDetails.image + ')',
-            }"
-          ></div>
-        </b-col>
-        <b-col lg="7">
-          <h1 class="mb-4 font-weight-bold text-center text-lg-left">
-            {{ amiiboDetails.name }}
-          </h1>
-          <div class="px-4 py-2 bg-light rounded border mb-4">
-            <h6
-              class="
-                font-weight-bold
-                d-flex
-                flex-row
-                justify-content-between
-                my-3
-              "
-            >
-              <span class="text-muted">Character:</span>
-              <span>{{ amiiboDetails.character }}</span>
-            </h6>
-            <h6
-              class="
-                font-weight-bold
-                d-flex
-                flex-row
-                justify-content-between
-                my-3
-              "
-            >
-              <span class="text-muted">Amiibo Series:</span>
-              <span>{{ amiiboDetails.amiiboSeries }}</span>
-            </h6>
-            <h6
-              class="
-                font-weight-bold
-                d-flex
-                flex-row
-                justify-content-between
-                my-3
-              "
-            >
-              <span class="text-muted">Game Series:</span>
-              <span>{{ amiiboDetails.gameSeries }}</span>
-            </h6>
-            <h6
-              class="
-                font-weight-bold
-                d-flex
-                flex-row
-                justify-content-between
-                my-3
-              "
-            >
-              <span class="text-muted">Release:</span>
-              <div class="text-right">
-                <span
-                  v-for="(release, releaseID) in amiiboDetails.release"
-                  v-bind:key="release"
-                  class="
-                    mb-1
-                    ml-1
-                    bg-white
-                    border
-                    rounded
-                    d-inline-block
-                    py-1
-                    px-2
-                    font-weight-bold
-                    small
-                  "
-                >
-                  <span class="text-uppercase">{{ releaseID }}</span> -
-                  {{ release }}
-                </span>
-              </div>
-            </h6>
-          </div>
-          <div class="p-4 bg-light rounded border mb-4">
-            <h6 class="font-weight-bold mb-3">Available in:</h6>
-          </div>
-        </b-col>
-      </b-row>
-      <button class="btn btn-primary btn-block font-weight-bold" @click="markCollected(amiiboDetails)">Mark as Collected</button>
-    </b-modal>
-    <div role="button" class="position-fixed bg-white rounded-circle shadow d-flex align-items-center justify-content-center" style="top:1rem;right:1rem; width: 50px; height: 50px; z-index:3">
-      <b-icon icon="menu-button-wide" style="width:25px;height:25px;"></b-icon>
+      <b-icon
+        icon="menu-button-wide"
+        style="width: 25px; height: 25px"
+      ></b-icon>
     </div>
     <div
       v-if="loading"
@@ -121,12 +31,12 @@
         sm="6"
         md="4"
         class="mt-5 mb-5"
-        v-for="amiibo in amiiboList"
-        v-bind:key="amiibo.tail"
+        v-for="(amiibo, index) in amiiboList"
+        v-bind:key="index"
       >
         <div
           role="button"
-          v-bind:class="{'collected': amiiboIsCollected(amiibo) }"
+          v-bind:class="{ collected: amiiboIsCollected(amiibo) }"
           @click="viewDetails(amiibo)"
           class="
             card
@@ -160,53 +70,65 @@
         </div>
       </b-col>
     </b-row>
+    <Details
+      v-on:markCollected="markCollected(collectedAmiibo)"
+      :amiiboData="this.amiiboDetails"
+    ></Details>
   </b-container>
 </template>
 
 <script>
 import axios from "axios";
+import Details from "./Details.vue";
 export default {
   name: "Amiibo Tracker",
   props: {
     msg: String,
   },
+  components: {
+    Details,
+  },
   data() {
     return {
       loading: true,
       amiiboList: [],
-      amiiboDetails: [],
+      amiiboDetails: {},
       collected: [],
+      collectedAmiibo: '',
     };
   },
   methods: {
-    async viewDetails(amiibo) {
-      axios
-        .get(
-          "https://amiiboapi.com/api/amiibo/?tail=" + amiibo.tail + "&showusage"
-        )
-        .then((response) => {
-          this.amiiboDetails = response.data.amiibo[0];
-          this.$bvModal.show("modal-1");
-        });
-    },
     async loadData() {
       axios.get("https://amiiboapi.com/api/amiibo/").then((response) => {
         this.amiiboList = response.data["amiibo"];
         this.loading = false;
+        axios
+          .get("https://amiiboapi.com/api/amiibo/?tail=00000002")
+          .then((response) => {
+            this.amiiboDetails = response.data.amiibo;
+          });
       });
     },
-    amiiboIsCollected(amiibo) {
-      return this.collected.includes(amiibo.tail)
+    async viewDetails(amiibo) {
+      axios
+        .get("https://amiiboapi.com/api/amiibo/?tail=" + amiibo.tail + "")
+        .then((response) => {
+          this.amiiboDetails = response.data.amiibo;
+          this.$bvModal.show("modal-1");
+        });
     },
-    markCollected(amiibo) {
-      this.collected.push(amiibo.tail)
+    amiiboIsCollected(amiibo) {
+      return this.collected.includes(amiibo.tail);
+    },
+    markCollected() {
+      this.collected.push(this.amiiboDetails[0].tail);
       this.$bvModal.hide("modal-1");
     },
     catch(error) {
       console.log(error);
     },
   },
-  created() {
+  mounted() {
     return this.loadData();
   },
 };
