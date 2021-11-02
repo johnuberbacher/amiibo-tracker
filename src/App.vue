@@ -32,10 +32,15 @@ export default {
   text-decoration: none;
 }
 .card {
-  transition: 0.2s background, 0.2s box-shadow;
+  transition: 0.2s background;
 }
 .card:hover {
   background: var(--light);
+}
+.shadow {
+  transition:  0.2s box-shadow;
+}
+.shadow:hover {
   box-shadow: 0 0.15rem 0.25rem rgba(0, 0, 0, 0.05) !important;
 }
 .card.collected {
