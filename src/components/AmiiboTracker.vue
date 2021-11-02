@@ -8,19 +8,19 @@
         <span class="sr-only">Loading...</span>
       </div>
     </div>
-    <b-row class="align-items-stretch mt-5">
+    <b-row class="align-items-stretch justify-content-center mt-5">
       <b-col sm="12" md="12">
         <div class="shadow rounded mb-5 bg-white position-relative">
-       
-            <b-icon class="position-absolute text-primary"
-              icon="search"
-              style="width: 18px; height: 18px; right: 1rem; top: 1rem;"
-            ></b-icon>
-            <b-form-input
-              v-model="filterInput"
-              placeholder="Search Amiibo..."
-              class="p-4 rounded"
-            ></b-form-input>
+          <b-icon
+            class="position-absolute text-primary"
+            icon="search"
+            style="width: 18px; height: 18px; right: 1rem; top: 1rem"
+          ></b-icon>
+          <b-form-input
+            v-model="filterInput"
+            placeholder="Search Amiibo..."
+            class="p-4 rounded"
+          ></b-form-input>
         </div>
       </b-col>
       <b-col
@@ -98,7 +98,7 @@ export default {
   },
   methods: {
     async loadData() {
-      axios.get("https://amiiboapi.com/api/amiibo/").then((response) => {
+      axios.get("https://amiiboapi.com/api/amiibo/?type=Figure").then((response) => {
         this.amiiboList = response.data["amiibo"];
         this.loading = false;
         axios
@@ -118,6 +118,7 @@ export default {
           this.$bvModal.show("modal-1");
         });
     },
+    
     amiiboIsCollected(amiibo) {
       return this.collected.includes(amiibo.tail);
     },
@@ -140,9 +141,6 @@ export default {
   },
   computed: {
     filteredAmiiboList() {
-      console.log("amiiboList:");
-      console.log(this.amiiboList[0]);
-      // function to compare names
       function compare(a, b) {
         if (a.name < b.name) return -1;
         if (a.name > b.name) return 1;
