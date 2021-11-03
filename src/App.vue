@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <AmiiboTracker msg="Welcome to Your Vue.js App" />
+    <AmiiboTracker />
   </div>
 </template>
 

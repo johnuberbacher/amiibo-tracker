@@ -98,6 +98,15 @@
       :amiiboData="this.amiiboDetails"
       :isCollected="this.collected.includes(this.amiiboDetails[0].tail)"
     ></Details>
+    <div class="w-100 text-center mb-5">
+      <a
+        href="https://github.com/johnuberbacher/amiibo-tracker"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-muted small"
+        ><u>John Uberbacher - View on GitHub</u></a
+      >
+    </div>
     <b-icon
       role="button"
       v-if="scY > 300"
@@ -120,9 +129,6 @@ import axios from "axios";
 import Details from "./Details.vue";
 export default {
   name: "Amiibo Tracker",
-  props: {
-    msg: String,
-  },
   components: {
     Details,
   },
@@ -197,6 +203,9 @@ export default {
     },
   },
   mounted() {
+    if(localStorage.collected) {
+       this.collected = localStorage.collected.split(',')
+    }
     window.addEventListener("scroll", this.handleScroll);
     return this.loadData();
   },
@@ -216,5 +225,10 @@ export default {
         .sort(compare);
     },
   },
+  watch: {
+    collected(collectedAmiibo) {
+      localStorage.collected = collectedAmiibo;
+    }
+  }
 };
 </script>
