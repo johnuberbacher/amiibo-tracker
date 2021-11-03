@@ -38,7 +38,7 @@
               my-3
             "
           >
-            <span class="text-muted">Character:</span>
+            <span class="text-muted mr-4">Character:</span>
             <span>{{ amiiboData[0].character }}</span>
           </h6>
           <h6
@@ -50,7 +50,7 @@
               my-3
             "
           >
-            <span class="text-muted">Amiibo Series:</span>
+            <span class="text-muted mr-4">Amiibo Series:</span>
             <span>{{ amiiboData[0].amiiboSeries }}</span>
           </h6>
           <h6
@@ -62,7 +62,7 @@
               my-3
             "
           >
-            <span class="text-muted">Game Series:</span>
+            <span class="text-muted mr-4">Game Series:</span>
             <span>{{ amiiboData[0].gameSeries }}</span>
           </h6>
           <h6
@@ -74,7 +74,7 @@
               my-3
             "
           >
-            <span class="text-muted">Release:</span>
+            <span class="text-muted mr-4">Release:</span>
             <div class="text-right">
               <span
                 v-for="(release, releaseID) in amiiboData[0].release"
@@ -127,7 +127,7 @@
       </b-col>
     </b-row>
     <button
-      class="btn btn-primary btn-block font-weight-bold mt-4"
+      class="btn btn-primary btn-block font-weight-bold mt-4 mt-xl-4"
       @click="handleCollected(amiiboData[0].tail)"
     >
       {{ handleCollectedBtn() }}

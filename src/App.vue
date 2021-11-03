@@ -40,11 +40,27 @@ export default {
 .shadow {
   transition:  0.2s box-shadow;
 }
-.shadow:hover {
+.shadow:hover,
+.card.collected {
   box-shadow: 0 0.15rem 0.25rem rgba(0, 0, 0, 0.05) !important;
 }
 .card.collected {
+  background: #dedede;
   -webkit-filter: grayscale(100%);
   filter: grayscale(100%);
+}
+.ribbon {
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  right: 0;
+  top: 2rem;
+  --ribbon-size:1rem;
+  padding-inline-start:calc(var(--ribbon-size));
+  border-radius:0.25rem;
+  z-index: 3;
+  color:#fff;
+  width:fit-content;
+  clip-path:polygon(0 0, var(--ribbon-size) 50%, 0 100%, 100% 100%, 100% 0);
+
 }
 </style>
