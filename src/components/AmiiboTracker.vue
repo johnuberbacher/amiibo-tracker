@@ -42,7 +42,20 @@
         v-for="(amiibo, index) in filteredAmiiboList"
         v-bind:key="index"
       >
-      <div v-if="amiiboIsCollected(amiibo)" class="ribbon font-weight-bold py-3 px-5 text-uppercase position-absolute bg-primary">Collected!</div>
+        <div
+          v-if="amiiboIsCollected(amiibo)"
+          class="
+            ribbon
+            font-weight-bold
+            py-3
+            px-5
+            text-uppercase
+            position-absolute
+            bg-primary
+          "
+        >
+          Collected!
+        </div>
         <div
           role="button"
           v-bind:class="{ collected: amiiboIsCollected(amiibo) }"
@@ -85,6 +98,20 @@
       :amiiboData="this.amiiboDetails"
       :isCollected="this.collected.includes(this.amiiboDetails[0].tail)"
     ></Details>
+    <b-icon
+      role="button"
+      v-if="scY > 300"
+      @click="scrollUp"
+      class="position-fixed mb-1 rounded-circle p-0 text-dark"
+      icon="arrow-up-circle-fill"
+      style="
+        width: 40px;
+        height: 40px;
+        right: 0.5rem;
+        bottom: 0.5rem;
+        opacity: 0.75;
+      "
+    ></b-icon>
   </b-container>
 </template>
 
@@ -107,6 +134,8 @@ export default {
       collected: [],
       collectedAmiibo: "",
       filterInput: "",
+      scTimer: 0,
+      scY: 0,
     };
   },
   methods: {
@@ -133,7 +162,20 @@ export default {
           this.$bvModal.show("modal-1");
         });
     },
-
+    handleScroll: function () {
+      if (this.scTimer) return;
+      this.scTimer = setTimeout(() => {
+        this.scY = window.scrollY;
+        clearTimeout(this.scTimer);
+        this.scTimer = 0;
+      }, 100);
+    },
+    scrollUp: function () {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    },
     amiiboIsCollected(amiibo) {
       return this.collected.includes(amiibo.tail);
     },
@@ -155,6 +197,7 @@ export default {
     },
   },
   mounted() {
+    window.addEventListener("scroll", this.handleScroll);
     return this.loadData();
   },
   computed: {

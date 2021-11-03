@@ -38,7 +38,7 @@ export default {
   background: var(--light);
 }
 .shadow {
-  transition:  0.2s box-shadow;
+  transition: 0.2s box-shadow;
 }
 .shadow:hover,
 .card.collected {
@@ -54,13 +54,12 @@ export default {
   letter-spacing: 0.5px;
   right: 0;
   top: 2rem;
-  --ribbon-size:1rem;
-  padding-inline-start:calc(var(--ribbon-size));
-  border-radius:0.25rem;
+  --ribbon-size: 1rem;
+  padding-inline-start: calc(var(--ribbon-size));
+  border-radius: 0.25rem;
   z-index: 3;
-  color:#fff;
-  width:fit-content;
-  clip-path:polygon(0 0, var(--ribbon-size) 50%, 0 100%, 100% 100%, 100% 0);
-
+  color: #fff;
+  width: fit-content;
+  clip-path: polygon(0 0, var(--ribbon-size) 50%, 0 100%, 100% 100%, 100% 0);
 }
 </style>
