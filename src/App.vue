@@ -62,4 +62,33 @@ export default {
   width: fit-content;
   clip-path: polygon(0 0, var(--ribbon-size) 50%, 0 100%, 100% 100%, 100% 0);
 }
+.dropdown-menu {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 100vh;
+  background: var(--light);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  --tw-bg-opacity: 1;
+  background-color: var(--primary);
+  border-radius: 100vh;
+  border: none;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(16, 185, 129, var(--tw-bg-opacity));
+  border: none;
+}
 </style>

@@ -113,7 +113,7 @@
               mr-1
               bg-white
               border
-              rounded
+              rounded-left
               d-inline-block
               py-1
               px-2

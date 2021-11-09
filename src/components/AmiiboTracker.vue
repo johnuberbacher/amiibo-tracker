@@ -10,29 +10,64 @@
     </div>
     <b-row class="align-items-stretch justify-content-center mt-5">
       <b-col sm="12" md="12">
-        <div
-          class="shadow mb-5 bg-white position-relative"
-          style="border-radius: 100rem"
-        >
-          <b-icon
-            class="position-absolute text-primary"
-            icon="search"
-            style="width: 18px; height: 18px; left: 1.5rem; top: 1.25rem"
-          ></b-icon>
-          <b-icon
-            v-if="!this.filterInput == ''"
-            @click="resetInput"
-            role="button"
-            class="position-absolute text-muted"
-            icon="x-circle"
-            style="width: 18px; height: 18px; right: 1.5rem; top: 1.25rem"
-          ></b-icon>
-          <b-form-input
-            style="height: 60px; border-radius: 100rem; padding-left: 4rem"
-            v-model="filterInput"
-            placeholder="Search Amiibo..."
-            class="py-4"
-          ></b-form-input>
+        <div class="d-flex flex-row align-items-center mb-5">
+          <div
+            class="shadow bg-white position-relative w-100"
+            style="border-radius: 100rem"
+          >
+            <b-icon
+              class="position-absolute text-primary"
+              icon="search"
+              style="width: 18px; height: 18px; left: 1.5rem; top: 1.25rem"
+            ></b-icon>
+            <b-icon
+              v-if="!this.filterInput == ''"
+              @click="resetInput"
+              role="button"
+              class="position-absolute text-muted"
+              icon="x-circle"
+              style="width: 18px; height: 18px; right: 1.5rem; top: 1.25rem"
+            ></b-icon>
+            <b-form-input
+              style="height: 60px; border-radius: 100rem; padding-left: 4rem"
+              v-model="filterInput"
+              placeholder="Search Amiibo..."
+              class="py-4"
+            ></b-form-input>
+          </div>
+          <b-dropdown
+            toggle-class="
+            text-decoration-none 
+            border-0 
+            rounded-circle
+              d-flex
+              align-items-center
+              justify-content-center
+              bg-primary"
+            no-caret
+            right
+            menu-class="shadow mt-3 bg-white"
+            id="dropdown-1"
+            style="min-width: 55px; width: 55px; height: 55px"
+            class="rounded-circle shadow ml-3"
+          >
+            <template #button-content>
+              <b-icon
+                icon="sort-down"
+                style="width: 25px; height: 25px"
+              ></b-icon
+              ><span class="sr-only">Search</span>
+            </template>
+            <b-dropdown-item @click="clearAmiiboSeries()">
+              Show All
+            </b-dropdown-item>
+            <b-dropdown-item
+              v-for="(game, index) in amiiboSeries"
+              v-bind:key="index"
+              @click="sortAmiiboSeries(game.name)"
+              >{{ game.name }}</b-dropdown-item
+            >
+          </b-dropdown>
         </div>
       </b-col>
       <b-col
@@ -139,6 +174,8 @@ export default {
       amiiboDetails: {},
       collected: [],
       collectedAmiibo: "",
+      amiiboSeries: [],
+      sortedAmiiboSeries: "",
       filterInput: "",
       scTimer: 0,
       scY: 0,
@@ -147,7 +184,10 @@ export default {
   methods: {
     async loadData() {
       axios
-        .get("https://amiiboapi.com/api/amiibo/?type=Figure")
+        .get(
+          "https://amiiboapi.com/api/amiibo/?type=Figure" +
+            this.sortedAmiiboSeries
+        )
         .then((response) => {
           this.amiiboList = response.data["amiibo"];
           this.loading = false;
@@ -157,6 +197,11 @@ export default {
               this.amiiboDetails = response.data.amiibo;
             });
         });
+    },
+    async loadAmiiboSeries() {
+      axios.get("https://amiiboapi.com/api/amiiboseries/").then((response) => {
+        this.amiiboSeries = response.data.amiibo;
+      });
     },
     async viewDetails(amiibo) {
       axios
@@ -201,13 +246,22 @@ export default {
     catch(error) {
       console.log(error);
     },
+    clearAmiiboSeries() {
+      return (this.sortedAmiiboSeries = ""), this.loadData();
+    },
+    sortAmiiboSeries(amiiboSeries) {
+      return (
+        (this.sortedAmiiboSeries = "&amiiboSeries=" + amiiboSeries),
+        this.loadData()
+      );
+    },
   },
   mounted() {
-    if(localStorage.collected) {
-       this.collected = localStorage.collected.split(',')
+    if (localStorage.collected) {
+      this.collected = localStorage.collected.split(",");
     }
     window.addEventListener("scroll", this.handleScroll);
-    return this.loadData();
+    return this.loadData(), this.loadAmiiboSeries();
   },
   computed: {
     filteredAmiiboList() {
@@ -228,7 +282,7 @@ export default {
   watch: {
     collected(collectedAmiibo) {
       localStorage.collected = collectedAmiibo;
-    }
-  }
+    },
+  },
 };
 </script>
