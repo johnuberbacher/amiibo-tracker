@@ -3,11 +3,13 @@
 ![Bootstrap](https://img.shields.io/badge/BootstrapVue-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
 
 
-Catalog the Amiibo you've collected! 
+A Vue.js application with Bootstrap integration for easily cataloging and tracking your Amiibo collection! 
 
-Vue practice project built with Vue and BootstrapVue. 
+This project serves as a Vue.js practice application, leveraging the power of Vue and BootstrapVue to provide a seamless and user-friendly experience. Loads all Amiibo data from [AmiiboApi](https://amiiboapi.com/).
 
-Loads all Amiibo data from [AmiiboApi](https://amiiboapi.com/).
+## Features
+- Effortlessly load and access comprehensive Amiibo data using the AmiiboApi.
+- Track and catalog your Amiibo collection with ease.
 
 ## Demo
 [https://amiibo-tracker.netlify.app/](https://amiibo-tracker.netlify.app/)
